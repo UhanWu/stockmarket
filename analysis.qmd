@@ -1,0 +1,63 @@
+---
+title: "Stock Market Quant"
+format: html
+editor: visual
+---
+
+```{r}
+library(quantmod)
+library(rstanarm)
+library(tidyverse)
+```
+```{r}
+symbolBasket <- c('AAPL', '^DJI', '^GSPC', '^IXIC')
+  
+  
+getSymbols(symbolBasket , src='yahoo')
+```
+
+```{r}
+summary(`DJI`)
+
+DJI <- as.xts(`DJI`)
+names(DJI)
+```
+
+
+```{r}
+plot(DJI$DJI.Open)
+```
+
+```{r}
+lineChart(DJI, line.type = 'h', theme = 'white')
+
+barChart(DJI, bar.type = 'hlc', TA = NULL)
+
+candleChart(DJI, TA=NULL, subset = '2023')
+```
+
+
+
+```{r}
+candleChart(DJI, TA=c(addMACD(),addVo()), theme = "white", subset = '2023')
+```
+
+```{r}
+candleChart(DJI, TA=c(addMACD(),addADX()), theme = "white", subset = '2023-01::')
+```
+
+```{r}
+chartSeries(DJI, 
+            type = c("auto", "matchsticks"), 
+            subset = '2023-01::',
+            show.grid = TRUE,
+            major.ticks='auto', minor.ticks=TRUE,
+            multi.col = FALSE,
+            TA=c(addMACD(),addVo(),addSMA(n=200,col = 'blue'),addSMA(n=50,col = 'red'),addSMA(n=22,col = 'green'),
+            addROC(n=200,col = 'blue'),addROC(n=50,col = 'red'),addROC(n=22,col = 'green')))
+```
+
+```{r}
+
+```
+

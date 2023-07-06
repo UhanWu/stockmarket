@@ -1,0 +1,55 @@
+---
+title: "statistics"
+author: "Yuhan Wu"
+format: html
+editor: visual
+---
+
+```{r}
+library(quantmod)
+library(rstanarm)
+library(tidyverse)
+library(readxl)
+```
+
+
+```{r}
+tibbledata <- DJI |>
+```
+
+```{r}
+tibbledata
+```
+
+
+```{r}
+fit_stock <- stan_glm(data = tibbledata,
+                       formula = DJI.Adjusted ~ 1,
+                       refresh = 0,
+                       seed = 76)
+```
+
+```{r}
+posterior_epred(fit_stock,
+                tibble(.nrow = 1)) |> 
+  as_tibble() |> 
+  ggplot(aes(`1`)) + 
+    geom_histogram(aes(y = after_stat(count/sum(count))),
+                   bins = 100) +
+    labs(title = "Posterior Distribution of Average Male Candidate",
+         y = "Probability",
+         x = "Expected Lifespan Post-Election") + 
+    scale_x_continuous(labels = scales::number_format()) +
+    scale_y_continuous(labels = scales::percent_format()) +
+    theme_classic()
+```
+
+
+
+
+
+
+
+
+
+
